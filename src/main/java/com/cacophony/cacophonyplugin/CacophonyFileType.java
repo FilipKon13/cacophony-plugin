@@ -2,7 +2,6 @@ package com.cacophony.cacophonyplugin;
 
 import com.intellij.openapi.fileTypes.LanguageFileType;
 import com.intellij.openapi.util.NlsContexts;
-import com.intellij.openapi.util.NlsSafe;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 
@@ -27,7 +26,7 @@ public class CacophonyFileType extends LanguageFileType {
     }
 
     @Override
-    public @NlsSafe @NotNull String getDefaultExtension() {
+    public @NotNull String getDefaultExtension() {
         return "cac";
     }
 

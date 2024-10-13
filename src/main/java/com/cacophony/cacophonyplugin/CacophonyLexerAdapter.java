@@ -5,7 +5,7 @@ import com.intellij.lexer.FlexAdapter;
 public class CacophonyLexerAdapter extends FlexAdapter {
 
     public CacophonyLexerAdapter() {
-        super(new CacophonyLexer(null));
+        super(new _CacophonyLexer(null));
     }
 
 }

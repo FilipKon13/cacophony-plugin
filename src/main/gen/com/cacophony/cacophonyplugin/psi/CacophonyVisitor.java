@@ -15,6 +15,10 @@ public class CacophonyVisitor extends PsiElementVisitor {
     visitExpr(o);
   }
 
+  public void visitBreakExpr(@NotNull CacophonyBreakExpr o) {
+    visitExpr(o);
+  }
+
   public void visitConditionalExpr(@NotNull CacophonyConditionalExpr o) {
     visitExpr(o);
   }

@@ -43,12 +43,12 @@ public class CacophonyParser implements PsiParser, LightPsiParser {
   }
 
   public static final TokenSet[] EXTENDS_SETS_ = new TokenSet[] {
-    create_token_set_(AND_EXPR, ASSIGN_EXPR, CONDITIONAL_EXPR, DECLARATION_EXPR,
-      DIV_EXPR, EXPR, FUNCTION_CALL_EXPR, FUNCTION_EXPR,
-      IF_ELSE_EXPR, IF_EXPR, LITERAL_EXPR, MINUS_EXPR,
-      MUL_EXPR, OR_EXPR, PAREN_EXPR, PLUS_EXPR,
-      SELF_OP_EXPR, SIMPLE_REF_EXPR, UNARY_MIN_EXPR, UNARY_NOT_EXPR,
-      UNARY_PLUS_EXPR, WHILE_EXPR),
+    create_token_set_(AND_EXPR, ASSIGN_EXPR, BREAK_EXPR, CONDITIONAL_EXPR,
+      DECLARATION_EXPR, DIV_EXPR, EXPR, FUNCTION_CALL_EXPR,
+      FUNCTION_EXPR, IF_ELSE_EXPR, IF_EXPR, LITERAL_EXPR,
+      MINUS_EXPR, MUL_EXPR, OR_EXPR, PAREN_EXPR,
+      PLUS_EXPR, SELF_OP_EXPR, SIMPLE_REF_EXPR, UNARY_MIN_EXPR,
+      UNARY_NOT_EXPR, UNARY_PLUS_EXPR, WHILE_EXPR),
   };
 
   /* ********************************************************** */
@@ -155,7 +155,8 @@ public class CacophonyParser implements PsiParser, LightPsiParser {
   // 8: ATOM(if_else_expr) ATOM(if_expr) ATOM(while_expr)
   // 9: PREFIX(function_expr)
   // 10: POSTFIX(function_call_expr)
-  // 11: ATOM(simple_ref_expr) ATOM(literal_expr) ATOM(paren_expr)
+  // 11: ATOM(break_expr)
+  // 12: ATOM(simple_ref_expr) ATOM(literal_expr) ATOM(paren_expr)
   public static boolean expr(PsiBuilder b, int l, int g) {
     if (!recursion_guard_(b, l, "expr")) return false;
     addVariant(b, "<expr>");
@@ -169,6 +170,7 @@ public class CacophonyParser implements PsiParser, LightPsiParser {
     if (!r) r = if_expr(b, l + 1);
     if (!r) r = while_expr(b, l + 1);
     if (!r) r = function_expr(b, l + 1);
+    if (!r) r = break_expr(b, l + 1);
     if (!r) r = simple_ref_expr(b, l + 1);
     if (!r) r = literal_expr(b, l + 1);
     if (!r) r = paren_expr(b, l + 1);
@@ -486,6 +488,17 @@ public class CacophonyParser implements PsiParser, LightPsiParser {
     r = consumeTokenSmart(b, ",");
     r = r && expr(b, l + 1, -1);
     exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // control_flow
+  public static boolean break_expr(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "break_expr")) return false;
+    if (!nextTokenIsSmart(b, CONTROL_FLOW)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeTokenSmart(b, CONTROL_FLOW);
+    exit_section_(b, m, BREAK_EXPR, r);
     return r;
   }
 

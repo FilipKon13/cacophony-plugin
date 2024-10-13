@@ -5,6 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface CacophonyProperty extends PsiElement {
+public interface CacophonyBreakExpr extends CacophonyExpr {
+
+  @NotNull
+  PsiElement getControlFlow();
 
 }

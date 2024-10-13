@@ -1,45 +1,55 @@
-// Copyright 2000-2022 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
 package com.cacophony.cacophonyplugin;
 
 import com.intellij.lexer.FlexLexer;
 import com.intellij.psi.tree.IElementType;
-import com.cacophony.cacophonyplugin.psi.CacophonyTypes;
-import com.intellij.psi.TokenType;
+
+import static com.intellij.psi.TokenType.BAD_CHARACTER;
+import static com.intellij.psi.TokenType.WHITE_SPACE;
+import static com.cacophony.cacophonyplugin.psi.CacophonyTypes.*;
 
 %%
 
-%class CacophonyLexer
+%{
+  public _CacophonyLexer() {
+    this((java.io.Reader)null);
+  }
+%}
+
+%public
+%class _CacophonyLexer
 %implements FlexLexer
-%unicode
 %function advance
 %type IElementType
-%eof{  return;
-%eof}
+%unicode
 
-CRLF=\R
-WHITE_SPACE=[\ \n\t\f]
-FIRST_VALUE_CHARACTER=[^ \n\f\\] | "\\"{CRLF} | "\\".
-VALUE_CHARACTER=[^\n\f\\] | "\\"{CRLF} | "\\".
-END_OF_LINE_COMMENT=("#"|"!")[^\r\n]*
-SEPARATOR=[:=]
-KEY_CHARACTER=[^:=\ \n\t\f\\] | "\\ "
+EOL=\R
+WHITE_SPACE=\s+
 
-%state WAITING_VALUE
+COMMENT=#.*
+NUMBER=[0-9]+(\.[0-9]*)?
+BOOLEAN=true|false
+CONTROL_FLOW=break|continue
+KEYWORDS=let|if|then|else|while|do
+SYNTAX=;|\.|\+|-|\*\*|\*|==|=|"/"|,|\(|\)|\^|\!=|\!|>=|<=|>|<|:|[|]|\|\||&&|->|=>
+VAR_ID=[a-z][a-zA-Z_0-9]*
+TYPE_ID=[A-Z][a-zA-Z_0-9]*
+STRING=('([^'\\]|\\.)*'|\"([^\"\\]|\\.)*\")
 
 %%
+<YYINITIAL> {
+  {WHITE_SPACE}        { return WHITE_SPACE; }
 
-<YYINITIAL> {END_OF_LINE_COMMENT}                           { yybegin(YYINITIAL); return CacophonyTypes.COMMENT; }
 
-<YYINITIAL> {KEY_CHARACTER}+                                { yybegin(YYINITIAL); return CacophonyTypes.KEY; }
+  {COMMENT}            { return COMMENT; }
+  {NUMBER}             { return NUMBER; }
+  {BOOLEAN}            { return BOOLEAN; }
+  {CONTROL_FLOW}       { return CONTROL_FLOW; }
+  {KEYWORDS}           { return KEYWORDS; }
+  {SYNTAX}             { return SYNTAX; }
+  {VAR_ID}             { return VAR_ID; }
+  {TYPE_ID}            { return TYPE_ID; }
+  {STRING}             { return STRING; }
 
-<YYINITIAL> {SEPARATOR}                                     { yybegin(WAITING_VALUE); return CacophonyTypes.SEPARATOR; }
+}
 
-<WAITING_VALUE> {CRLF}({CRLF}|{WHITE_SPACE})+               { yybegin(YYINITIAL); return TokenType.WHITE_SPACE; }
-
-<WAITING_VALUE> {WHITE_SPACE}+                              { yybegin(WAITING_VALUE); return TokenType.WHITE_SPACE; }
-
-<WAITING_VALUE> {FIRST_VALUE_CHARACTER}{VALUE_CHARACTER}*   { yybegin(YYINITIAL); return CacophonyTypes.VALUE; }
-
-({CRLF}|{WHITE_SPACE})+                                     { yybegin(YYINITIAL); return TokenType.WHITE_SPACE; }
-
-[^]                                                         { return TokenType.BAD_CHARACTER; }
+[^] { return BAD_CHARACTER; }

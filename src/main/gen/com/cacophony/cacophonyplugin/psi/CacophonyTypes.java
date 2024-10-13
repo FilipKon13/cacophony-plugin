@@ -12,6 +12,7 @@ public interface CacophonyTypes {
 
   IElementType AND_EXPR = new CacophonyElementType("AND_EXPR");
   IElementType ASSIGN_EXPR = new CacophonyElementType("ASSIGN_EXPR");
+  IElementType BREAK_EXPR = new CacophonyElementType("BREAK_EXPR");
   IElementType CONDITIONAL_EXPR = new CacophonyElementType("CONDITIONAL_EXPR");
   IElementType DECLARATION_EXPR = new CacophonyElementType("DECLARATION_EXPR");
   IElementType DIV_EXPR = new CacophonyElementType("DIV_EXPR");
@@ -38,6 +39,7 @@ public interface CacophonyTypes {
 
   IElementType BOOLEAN = new CacophonyTokenType("boolean");
   IElementType COMMENT = new CacophonyTokenType("comment");
+  IElementType CONTROL_FLOW = new CacophonyTokenType("control_flow");
   IElementType KEYWORDS = new CacophonyTokenType("keywords");
   IElementType NUMBER = new CacophonyTokenType("number");
   IElementType STRING = new CacophonyTokenType("string");
@@ -53,6 +55,9 @@ public interface CacophonyTypes {
       }
       else if (type == ASSIGN_EXPR) {
         return new CacophonyAssignExprImpl(node);
+      }
+      else if (type == BREAK_EXPR) {
+        return new CacophonyBreakExprImpl(node);
       }
       else if (type == CONDITIONAL_EXPR) {
         return new CacophonyConditionalExprImpl(node);

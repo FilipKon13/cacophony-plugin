@@ -17,19 +17,18 @@
     comment='regexp:#.*'
     number='regexp:\d+(\.\d*)?'
     boolean='regexp:true|false'
+    control_flow='regexp:break|continue'
     keywords='regexp:let|if|then|else|while|do'
     syntax='regexp:;|\.|\+|-|\*\*|\*|==|=|/|,|\(|\)|\^|\!=|\!|>=|<=|>|<|:|[|]|\|\||&&|->|=>'
     var_id='regexp:[a-z]\w*'
     type_id='regexp:[A-Z]\w*'
     string="regexp:('([^'\\]|\\.)*'|\"([^\"\\]|\\.)*\")"
-
   ]
 }
 root ::= element *
 private element ::= expr ';'  {recoverWhile=element_recover}
 private element_recover ::= !('(' | '+' | '-' | '!' | var_id | number | syntax | keywords | boolean | type_id )
 
-// left recursion and empty PSI children define expression root
 expr ::= assign_expr
   | self_op_expr
   | conditional_group
@@ -41,6 +40,7 @@ expr ::= assign_expr
   | control_group
   | function_expr
   | function_call_expr
+  | break_expr
   | primary_group
   {extraRoot=true}
 
@@ -75,6 +75,7 @@ declaration_expr ::= 'let' identifier (':' type)? '=' expr
 while_expr ::= 'while' expr 'do' expr
 if_expr ::= 'if' expr 'then' expr
 if_else_expr ::= 'if' expr 'then' expr 'else' expr
+break_expr ::= control_flow
 
 param ::= identifier ':' type
 function_expr ::= '[' (param (',' param)*)? ']' '->' type '=>' expr
