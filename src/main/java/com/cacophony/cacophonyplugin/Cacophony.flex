@@ -29,9 +29,9 @@ COMMENT=#.*
 NUMBER=[0-9]+(\.[0-9]*)?
 BOOLEAN=true|false
 CONTROL_FLOW=break|continue
-KEYWORDS=let|if|then|else|while|do
-SYNTAX=;|\.|\+|-|\*\*|\*|==|=|"/"|,|\(|\)|\^|\!=|\!|>=|<=|>|<|:|[|]|\|\||&&|->|=>
-VAR_ID=[a-z][a-zA-Z_0-9]*
+KEYWORDS=let|if|then|else|while|do|foreign
+SYNTAX=;|\.|\+|-|\*\*|%|\*|==|=|"/"|,|\(|\)|\^|\!=|\!|>=|<=|>|<|:|\[|]|\|\||->|\{|}|\$|@|&|&&=>
+VAR_ID=[a-z_][a-zA-Z_0-9]*
 TYPE_ID=[A-Z][a-zA-Z_0-9]*
 STRING=('([^'\\]|\\.)*'|\"([^\"\\]|\\.)*\")
 

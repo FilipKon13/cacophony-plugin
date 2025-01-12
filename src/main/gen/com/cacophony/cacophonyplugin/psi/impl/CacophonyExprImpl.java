@@ -11,7 +11,7 @@ import static com.cacophony.cacophonyplugin.psi.CacophonyTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.cacophony.cacophonyplugin.psi.*;
 
-public abstract class CacophonyExprImpl extends ASTWrapperPsiElement implements CacophonyExpr {
+public class CacophonyExprImpl extends ASTWrapperPsiElement implements CacophonyExpr {
 
   public CacophonyExprImpl(@NotNull ASTNode node) {
     super(node);
@@ -25,6 +25,48 @@ public abstract class CacophonyExprImpl extends ASTWrapperPsiElement implements 
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof CacophonyVisitor) accept((CacophonyVisitor)visitor);
     else super.accept(visitor);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getBoolean() {
+    return findChildByType(BOOLEAN);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getControlFlow() {
+    return findChildByType(CONTROL_FLOW);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getKeywords() {
+    return findChildByType(KEYWORDS);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getNumber() {
+    return findChildByType(NUMBER);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getSyntax() {
+    return findChildByType(SYNTAX);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getTypeId() {
+    return findChildByType(TYPE_ID);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getVarId() {
+    return findChildByType(VAR_ID);
   }
 
 }

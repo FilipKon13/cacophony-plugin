@@ -7,4 +7,25 @@ import com.intellij.psi.PsiElement;
 
 public interface CacophonyExpr extends PsiElement {
 
+  @Nullable
+  PsiElement getBoolean();
+
+  @Nullable
+  PsiElement getControlFlow();
+
+  @Nullable
+  PsiElement getKeywords();
+
+  @Nullable
+  PsiElement getNumber();
+
+  @Nullable
+  PsiElement getSyntax();
+
+  @Nullable
+  PsiElement getTypeId();
+
+  @Nullable
+  PsiElement getVarId();
+
 }

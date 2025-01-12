@@ -18,65 +18,71 @@
     number='regexp:\d+(\.\d*)?'
     boolean='regexp:true|false'
     control_flow='regexp:break|continue'
-    keywords='regexp:let|if|then|else|while|do'
-    syntax='regexp:;|\.|\+|-|\*\*|\*|==|=|/|,|\(|\)|\^|\!=|\!|>=|<=|>|<|:|[|]|\|\||&&|->|=>'
-    var_id='regexp:[a-z]\w*'
+    keywords='regexp:let|if|then|else|while|do|foreign'
+    syntax='regexp:;|\.|\+|-|\*\*|%|\*|==|=|/|,|\(|\)|\^|\!=|\!|>=|<=|>|<|:|\[|]|\|\||->|\{|}|\$|@|&|&&=>'
+    var_id='regexp:[a-z_]\w*'
     type_id='regexp:[A-Z]\w*'
     string="regexp:('([^'\\]|\\.)*'|\"([^\"\\]|\\.)*\")"
   ]
 }
-root ::= element *
-private element ::= expr ';'  {recoverWhile=element_recover}
-private element_recover ::= !('(' | '+' | '-' | '!' | var_id | number | syntax | keywords | boolean | type_id )
 
-expr ::= assign_expr
-  | self_op_expr
-  | conditional_group
-  | add_group
-  | mul_group
-  | unary_group
-  | boolean_group
-  | declaration_expr
-  | control_group
-  | function_expr
-  | function_call_expr
-  | break_expr
-  | primary_group
-  {extraRoot=true}
+root ::= expr *
 
-private conditional_group ::= conditional_expr
-private unary_group ::= unary_plus_expr | unary_min_expr | unary_not_expr
-private mul_group ::= mul_expr | div_expr
-private add_group ::= plus_expr | minus_expr
-private boolean_group ::= or_expr | and_expr
-private control_group ::= if_else_expr | if_expr | while_expr
-private primary_group ::= simple_ref_expr | literal_expr | paren_expr
+expr ::= number | boolean | control_flow | keywords | syntax | var_id | type_id
 
-simple_ref_expr ::= identifier
-literal_expr ::= number | boolean
-identifier ::= var_id
-unary_min_expr ::= '-' expr
-unary_plus_expr ::= '+' expr
-unary_not_expr ::= '!' expr
-assign_expr ::= expr '=' expr { rightAssociative=true }
-self_op_expr ::= expr ('+=' | '-=' | '*=' | '/=') expr
-conditional_expr ::= expr ('<' | '>' | '<=' | '>=' | '==' | '!=') expr
-div_expr ::= expr '/' expr
-mul_expr ::= expr '*' expr
-minus_expr ::= expr '-' expr
-plus_expr ::= expr '+' expr
-or_expr ::= expr '||' expr
-and_expr ::= expr '&&' expr
-paren_expr ::= '(' (expr (';' expr )*)? ';'? ')'
-
-type ::= type_id
-declaration_expr ::= 'let' identifier (':' type)? '=' expr
-
-while_expr ::= 'while' expr 'do' expr
-if_expr ::= 'if' expr 'then' expr
-if_else_expr ::= 'if' expr 'then' expr 'else' expr
-break_expr ::= control_flow
-
-param ::= identifier ':' type
-function_expr ::= '[' (param (',' param)*)? ']' '->' type '=>' expr
-function_call_expr ::= expr '[' (expr (',' expr)*)? ']'
+//private element ::= expr ';'
+//
+//expr ::= assign_expr
+//  | self_op_expr
+//  | conditional_group
+//  | add_group
+//  | mul_group
+//  | unary_group
+//  | boolean_group
+//  | declaration_expr
+//  | control_group
+//  | function_expr
+//  | function_call_expr
+//  | break_expr
+//  | primary_group
+//  | empty_expr
+//  {extraRoot=true}
+//
+//private conditional_group ::= conditional_expr
+//private unary_group ::= unary_plus_expr | unary_min_expr | unary_not_expr
+//private mul_group ::= mul_expr | div_expr | mod_expr
+//private add_group ::= plus_expr | minus_expr
+//private boolean_group ::= or_expr | and_expr
+//private control_group ::= if_else_expr | if_expr | while_expr
+//private primary_group ::= simple_ref_expr | literal_expr | paren_expr
+//empty_expr ::= ';'+
+//
+//simple_ref_expr ::= identifier
+//literal_expr ::= number | boolean
+//identifier ::= var_id
+//unary_min_expr ::= '-' expr
+//unary_plus_expr ::= '+' expr
+//unary_not_expr ::= '!' expr
+//assign_expr ::= expr '=' expr
+//self_op_expr ::= expr ('+=' | '-=' | '*=' | '/=') expr
+//conditional_expr ::= expr ('<' | '>' | '<=' | '>=' | '==' | '!=') expr
+//div_expr ::= expr '/' expr
+//mul_expr ::= expr '*' expr
+//mod_expr ::= expr '%' expr
+//minus_expr ::= expr '-' expr
+//plus_expr ::= expr '+' expr
+//or_expr ::= expr '||' expr
+//and_expr ::= expr '&&' expr
+//paren_expr ::= '(' (expr (';' expr )*)? ';'? ')'
+//
+//type ::= type_id
+//declaration_expr ::= 'let' identifier (':' type)? '=' expr
+//
+//while_expr ::= 'while' expr 'do' expr
+//if_expr ::= 'if' expr 'then' expr
+//if_else_expr ::= 'if' expr 'then' expr 'else' expr
+//break_expr ::= control_flow
+//
+//private param ::= identifier ':' type
+//function_expr ::= '[' (param (',' param)*)? ']' '->' type '=>' expr
+//function_call_expr ::= expr '[' (expr (',' expr)*)? ']'

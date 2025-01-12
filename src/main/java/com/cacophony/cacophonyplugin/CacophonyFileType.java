@@ -22,7 +22,7 @@ public class CacophonyFileType extends LanguageFileType {
 
     @Override
     public @NlsContexts.Label @NotNull String getDescription() {
-        return "Cacophony language File";
+        return "Cacophony Language File";
     }
 
     @Override

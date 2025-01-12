@@ -23,7 +23,7 @@ public class CacophonySyntaxHighlighter extends SyntaxHighlighterBase {
     public static final TextAttributesKey NUMBER =
             createTextAttributesKey("NUMBER", DefaultLanguageHighlighterColors.NUMBER);
     public static final TextAttributesKey TYPE =
-            createTextAttributesKey("TYPE", DefaultLanguageHighlighterColors.FUNCTION_DECLARATION);
+            createTextAttributesKey("TYPE", DefaultLanguageHighlighterColors.METADATA);
     public static final TextAttributesKey BOOLEAN =
             createTextAttributesKey("BOOLEAN", DefaultLanguageHighlighterColors.KEYWORD);
     public static final TextAttributesKey SYNTAX =
