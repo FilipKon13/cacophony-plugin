@@ -17,7 +17,7 @@
     comment='regexp:#.*'
     number='regexp:\d+(\.\d*)?'
     boolean='regexp:true|false'
-    control_flow='regexp:break|continue'
+    control_flow='regexp:break|continue|return'
     keywords='regexp:let|if|then|else|while|do|foreign'
     syntax='regexp:;|\.|\+|-|\*\*|%|\*|==|=|/|,|\(|\)|\^|\!=|\!|>=|<=|>|<|:|\[|]|\|\||->|\{|}|\$|@|&|&&=>'
     var_id='regexp:[a-z_]\w*'

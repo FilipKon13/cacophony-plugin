@@ -28,7 +28,7 @@ WHITE_SPACE=\s+
 COMMENT=#.*
 NUMBER=[0-9]+(\.[0-9]*)?
 BOOLEAN=true|false
-CONTROL_FLOW=break|continue
+CONTROL_FLOW=break|continue|return
 KEYWORDS=let|if|then|else|while|do|foreign
 SYNTAX=;|\.|\+|-|\*\*|%|\*|==|=|"/"|,|\(|\)|\^|\!=|\!|>=|<=|>|<|:|\[|]|\|\||->|\{|}|\$|@|&|&&=>
 VAR_ID=[a-z_][a-zA-Z_0-9]*
